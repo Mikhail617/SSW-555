@@ -1,6 +1,5 @@
 package gedcomlint;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,8 +15,6 @@ public class GedcomLint {
 	public static void main(String args[]) {
 		
 		Scanner sc = new Scanner(System.in);
-
-		
 		System.out.println("Please enter the name of the file: ");
 		
 		// print command line arguments
