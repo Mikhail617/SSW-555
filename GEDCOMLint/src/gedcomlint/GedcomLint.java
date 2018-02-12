@@ -32,6 +32,7 @@ public class GedcomLint {
 		values.add("DEAT");
 		values.add("FAMC");
 		values.add("FAMS");
+		values.add("DATE");
 		values.add("MARR");
 		values.add("HUSB");
 		values.add("WIFE");
