@@ -32,7 +32,6 @@ public class GedcomLint {
 		values.add("DEAT");
 		values.add("FAMC");
 		values.add("FAMS");
-		values.add("DATE");
 		values.add("MARR");
 		values.add("HUSB");
 		values.add("WIFE");
@@ -72,11 +71,24 @@ public class GedcomLint {
     			// check if the line is valid
     			if(words != null && words.length >= 2) {
     				
-    				System.out.print(words[0] + "|" + words[1]);
+    				boolean isSpecialScenario = false;
+					if(words.length >= 3 && (words[2].equals("INDI") || words[2].equals("FAM")) ) {
+						isSpecialScenario = true;
+					}
+					
+					String level = words[0];
+					String tag = "";
+    				if(!isSpecialScenario) {
+    					tag = words[1];
+    				} else {
+    					tag = words[2];
+    				}
+    				
+					System.out.print(level + "|" + tag);	
     				
     				// check if level and tag is valid
-    				if ( VALID_LEVEL_TAGS.containsKey(words[0]) 
-    						&& VALID_LEVEL_TAGS.get(words[0]).contains(words[1]) ) {
+    				if ( VALID_LEVEL_TAGS.containsKey(level) 
+    						&& VALID_LEVEL_TAGS.get(level).contains(tag) ) {
     					System.out.print("|Y");
     				} else {
     					System.out.print("|N");
@@ -84,8 +96,15 @@ public class GedcomLint {
     				
     				if(words.length > 2) {
     					System.out.print("|");
-    					for(int i=2; i<words.length; i++) {
-    						System.out.print(words[i]+ " ");
+    					if(isSpecialScenario) {
+    						System.out.print(words[1]);
+        					for(int i=3; i<words.length; i++) {
+        						System.out.print(" " + words[i]);
+        					}
+    					} else {
+        					for(int i=2; i<words.length; i++) {
+        						System.out.print(words[i]+ " ");
+        					}
     					}
     				}
     			}
