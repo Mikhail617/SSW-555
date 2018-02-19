@@ -90,11 +90,12 @@ public class Project03 {
 						indv.getSpouseFamilyIds().add(value);
 						
 						// Let's add the spouse to family table
-						Family fam;
-						if(allFamilies.contains(value.replaceAll("@", ""))) {
-							System.out.println("hit");
-							fam = allFamilies.get(allFamilies.indexOf(value.replaceAll("@", "")));
-						} else {
+						Family fam = null;
+						for (Family family:allFamilies) {
+							if(family.getId().equals(value.replaceAll("@", "")))
+								fam = family;
+						}
+						if(fam == null) {
 							fam = new Family();
 							fam.setId(value.replaceAll("@", ""));
 							allFamilies.add(fam);
