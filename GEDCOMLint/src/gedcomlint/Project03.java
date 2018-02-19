@@ -6,10 +6,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Project03 {
 	private static List<Individual> allIndividuals = new ArrayList<Individual>();
+	private static List<Family> allFamilies = new ArrayList<Family>();
 
 	public static void printINDIAndFAMTables(File f) {
         BufferedReader br = null;
@@ -86,16 +88,54 @@ public class Project03 {
 					
 					if(tag.equals("FAMS")) {
 						indv.getSpouseFamilyIds().add(value);
+						
+						// Let's add the spouse to family table
+						Family fam;
+						if(allFamilies.contains(value.replaceAll("@", ""))) {
+							System.out.println("hit");
+							fam = allFamilies.get(allFamilies.indexOf(value.replaceAll("@", "")));
+						} else {
+							fam = new Family();
+							fam.setId(value.replaceAll("@", ""));
+							allFamilies.add(fam);
+						}
+						if(indv.getGender().trim().equals("M")) {
+							fam.setHusbandName(indv.getName());
+							fam.setHusbandId(indv.getId());
+						} else {
+							fam.setWifeName(indv.getName());
+							fam.setWifeId(indv.getId());
+						}
 					}
 					
 					if(tag.equals("FAMC")) {
 						indv.getChildFamilyIds().add(value);
+						
+						// Let's add the children IDs to the family table
+						/*Family fam;
+						if(allFamilies.contains(value.replaceAll("@", ""))) {
+							fam = allFamilies.get(allFamilies.indexOf(value));
+							if(fam.getChildrenId() == null) {
+								List<String> childrenIds = new ArrayList<String>();
+								fam.setChildrenId(childrenIds);
+							}
+								
+						} else {
+							fam = new Family();
+							allFamilies.add(fam);
+							
+							List<String> childrenIds = new ArrayList<String>();
+							fam.setChildrenId(childrenIds);
+						}
+						if(!fam.getChildrenId().contains(value))
+							fam.getChildrenId().add(value);*/
 					}
 					
 				}
 	    	}
 	    	
 	    	// at this stage we have all Individuals stored in list named allIndividuals
+	    	System.out.println("Individuals");
 	    	System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
 	    			"----------", "-------------------------", "-------", "------------", "-----", "-------", "------------", "--------------------", "--------------------");
 	    	System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
@@ -113,6 +153,14 @@ public class Project03 {
 	    	System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
 	    			"----------", "-------------------------", "-------", "------------", "-----", "-------", "------------", "--------------------", "--------------------");
 	    	
+	    	// Now, let's print all families stored in list named allFamilies
+	    	System.out.println("Families");
+	    	for(Family fam: allFamilies)
+	    		System.out.println(fam.getId() + " | " + fam.getMarriageDate() + " | " + fam.getHusbandId() + " | " +
+	    								fam.getHusbandName() + " | " + fam.getWifeId() + " | " + fam.getWifeName()); 
+	    									//" | " + Arrays.toString(fam.getChildrenId().toArray()));
+	    							
+        
         }  catch (IOException e) {
         	//e.printStackTrace();
         	System.out.println("Look like you passed incorrect file name");
