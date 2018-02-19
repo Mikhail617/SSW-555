@@ -113,23 +113,23 @@ public class Project03 {
 						indv.getChildFamilyIds().add(value);
 						
 						// Let's add the children IDs to the family table
-						/*Family fam;
-						if(allFamilies.contains(value.replaceAll("@", ""))) {
-							fam = allFamilies.get(allFamilies.indexOf(value));
-							if(fam.getChildrenId() == null) {
-								List<String> childrenIds = new ArrayList<String>();
-								fam.setChildrenId(childrenIds);
-							}
-								
-						} else {
+						Family fam = null;
+						for (Family family:allFamilies) {
+							if(family.getId().equals(value.replaceAll("@", "")))
+								fam = family;
+						}
+						if(fam == null) {
 							fam = new Family();
+							fam.setId(value.replaceAll("@", ""));
 							allFamilies.add(fam);
-							
+						}
+						if(fam.getChildrenId() == null) {
 							List<String> childrenIds = new ArrayList<String>();
 							fam.setChildrenId(childrenIds);
+						} else {
+							if(!fam.getChildrenId().contains(value))
+								fam.getChildrenId().add(value);
 						}
-						if(!fam.getChildrenId().contains(value))
-							fam.getChildrenId().add(value);*/
 					}
 					
 				}
@@ -158,8 +158,8 @@ public class Project03 {
 	    	System.out.println("Families");
 	    	for(Family fam: allFamilies)
 	    		System.out.println(fam.getId() + " | " + fam.getMarriageDate() + " | " + fam.getHusbandId() + " | " +
-	    								fam.getHusbandName() + " | " + fam.getWifeId() + " | " + fam.getWifeName()); 
-	    									//" | " + Arrays.toString(fam.getChildrenId().toArray()));
+	    								fam.getHusbandName() + " | " + fam.getWifeId() + " | " + fam.getWifeName() +
+	    									" | " + fam.getChildrenId());
 	    							
         
         }  catch (IOException e) {
