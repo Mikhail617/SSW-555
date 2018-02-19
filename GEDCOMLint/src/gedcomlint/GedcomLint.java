@@ -12,9 +12,7 @@ import java.io.BufferedReader;
 
 public class GedcomLint {
 	
-	private static File inFile;
-	
-	private static HashMap<String, Set<String>> VALID_LEVEL_TAGS = new HashMap<String, Set<String>>();
+	public static HashMap<String, Set<String>> VALID_LEVEL_TAGS = new HashMap<String, Set<String>>();
 	
 	static {
 		HashSet<String> values = new HashSet<String>();
@@ -45,83 +43,16 @@ public class GedcomLint {
 	}
 
 	public static void main(String args[]) {
-		
+
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Please enter the name of the file: ");
 		
         // open filename from argument
         String fileName = sc.nextLine();;
-        
-        // print file contents line by line
-        BufferedReader br = null;
-        try {
-        	File f = new File(fileName);
-        	br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
-        	
-        	// read each line from the file
-        	for (String line = br.readLine(); line != null; line = br.readLine()) {
-        		// Print the input line 
-        		System.out.println("--> " + line);
-        		
-        		// Print the output line
-        		System.out.print("<-- "); 
-        		// Split the line into words	
-    			String[] words = line.split(" ");
-    			
-    			// check if the line is valid
-    			if(words != null && words.length >= 2) {
-    				
-    				boolean isSpecialScenario = false;
-					if(words.length >= 3 && (words[2].equals("INDI") || words[2].equals("FAM")) ) {
-						isSpecialScenario = true;
-					}
-					
-					String level = words[0];
-					String tag = "";
-    				if(!isSpecialScenario) {
-    					tag = words[1];
-    				} else {
-    					tag = words[2];
-    				}
-    				
-					System.out.print(level + "|" + tag);	
-    				
-    				// check if level and tag is valid
-    				if ( VALID_LEVEL_TAGS.containsKey(level) 
-    						&& VALID_LEVEL_TAGS.get(level).contains(tag) ) {
-    					System.out.print("|Y");
-    				} else {
-    					System.out.print("|N");
-    				}
-    				
-    				if(words.length > 2) {
-    					System.out.print("|");
-    					if(isSpecialScenario) {
-    						System.out.print(words[1]);
-        					for(int i=3; i<words.length; i++) {
-        						System.out.print(" " + words[i]);
-        					}
-    					} else {
-        					for(int i=2; i<words.length; i++) {
-        						System.out.print(words[i]+ " ");
-        					}
-    					}
-    				}
-    			}
-    			System.out.println("");
-        	}
+    	File f = new File(fileName);
 
-        }  catch (IOException e) {
-        	//e.printStackTrace();
-        	System.out.println("Look like you passed incorrect file name");
-        }  finally {
-        	try {
-        		if (br != null)br.close();
-        		
-        	} catch (IOException ex) {
-        		ex.printStackTrace();
-        	}
-        }
+//		Project02.parseAndPrintGEDCOMData(f);
+		Project03.printINDIAndFAMTables(f);
 	}
 	
 }
