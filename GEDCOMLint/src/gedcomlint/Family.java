@@ -8,6 +8,7 @@ public class Family {
 	String id;
 	Date marriageDate;
 	boolean isDivorced;
+	Date divorceDate;
 	String husbandId;
 	String HusbandName;
 	String wifeId;
@@ -31,6 +32,12 @@ public class Family {
 	}
 	public void setDivorced(boolean isDivorced) {
 		this.isDivorced = isDivorced;
+	}
+	public Date getDivorceDate() {
+		return divorceDate;
+	}
+	public void setDivorceDate(Date divorceDate) {
+		this.divorceDate = divorceDate;
 	}
 	public String getHusbandId() {
 		return husbandId;
