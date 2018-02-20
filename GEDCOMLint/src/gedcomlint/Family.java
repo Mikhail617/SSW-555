@@ -6,9 +6,9 @@ import java.util.List;
 public class Family {
 
 	String id;
-	Date marriageDate;
+	String marriageDate;
 	boolean isDivorced;
-	Date divorceDate;
+	String divorceDate;
 	String husbandId;
 	String HusbandName;
 	String wifeId;
@@ -21,10 +21,10 @@ public class Family {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Date getMarriageDate() {
+	public String getMarriageDate() {
 		return marriageDate;
 	}
-	public void setMarriageDate(Date marriageDate) {
+	public void setMarriageDate(String marriageDate) {
 		this.marriageDate = marriageDate;
 	}
 	public boolean isDivorced() {
@@ -33,10 +33,10 @@ public class Family {
 	public void setDivorced(boolean isDivorced) {
 		this.isDivorced = isDivorced;
 	}
-	public Date getDivorceDate() {
+	public String getDivorceDate() {
 		return divorceDate;
 	}
-	public void setDivorceDate(Date divorceDate) {
+	public void setDivorceDate(String divorceDate) {
 		this.divorceDate = divorceDate;
 	}
 	public String getHusbandId() {
@@ -66,6 +66,26 @@ public class Family {
 	public List<String> getChildrenId() {
 		return childrenId;
 	}
+
+	public String getChildrenIdAsString() {
+		if( childrenId != null && childrenId.size() > 0 ) {
+			String value = "{";
+			boolean first = true;
+			for(String str : childrenId) {
+				if(!first) {
+					value += ",";
+				}
+				value += str.replaceAll("@", "'");
+				
+				first = false;
+			}
+			value += "}";
+			return value;
+		} else {
+			return "NA";
+		}
+	}
+
 	public void setChildrenId(List<String> childrenId) {
 		this.childrenId = childrenId;
 	}

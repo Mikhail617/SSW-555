@@ -20,8 +20,11 @@ public class Project03 {
 	    	br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 	    	
 	    	Individual indv = null;
+	    	Family currentFamily = null;
 	    	boolean readingBirthDate = false;
 	    	boolean readingDeathDate = false;
+	    	boolean readingMarriageDate = false;
+	    	boolean readingDivorceDate = false;
 	    	// read each line from the file
 	    	for (String line = br.readLine(); line != null; line = br.readLine()) {
 
@@ -77,6 +80,25 @@ public class Project03 {
 						readingBirthDate = false;
 						indv.setBirthDate(value);
 					}
+					
+					if(tag.equals("MARR")) {
+						readingMarriageDate = true;
+						continue;
+					}
+					if(tag.equals("DATE") && readingMarriageDate) {
+						readingMarriageDate = false;
+						currentFamily.setMarriageDate(value);
+					}
+
+					if(tag.equals("DIV")) {
+						readingDivorceDate = true;
+						continue;
+					}
+					if(tag.equals("DATE") && readingDivorceDate) {
+						readingDivorceDate = false;
+						currentFamily.setDivorceDate(value);
+					}
+
 					if(tag.equals("DEAT")) {
 						readingDeathDate = true;
 						continue;
@@ -84,6 +106,19 @@ public class Project03 {
 					if(tag.equals("DATE") && readingDeathDate) {
 						readingDeathDate = false;
 						indv.setDeathDate(value);
+					}
+					
+					if(tag.equals("FAM")) {
+						currentFamily = null;
+						for (Family family:allFamilies) {
+							if(family.getId().trim().equals((value.replaceAll("@", "")).trim()))
+								currentFamily = family;
+						}
+						if(currentFamily == null) {
+							currentFamily = new Family();
+							currentFamily.setId(value.replaceAll("@", ""));
+							allFamilies.add(currentFamily);
+						}
 					}
 					
 					if(tag.equals("FAMS")) {
@@ -156,16 +191,20 @@ public class Project03 {
 	    	
 	    	// Now, let's print all families stored in list named allFamilies
 	    	System.out.println("Families");
-	    	System.out.format("|%1$-10s|%2$-10s|%3$-10s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
-	    			"----------", "----------", "----------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
-	    	System.out.format("|%1$-10s|%2$-10s|%3$-10s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+	    	System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+	    			"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
+	    	
+	    	
+	    	System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
 	    			"ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children");
+	    	System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+	    			"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
 	    	for(Family fam: allFamilies)
-	    		System.out.format("|%1$-10s|%2$-10s|%3$-10s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
-	    				fam.getId(), fam.getMarriageDate(), fam.getDivorceDate(), fam.getHusbandId(),
-	    								fam.getHusbandName(),fam.getWifeId(), fam.getWifeName(),fam.getChildrenId());
-	    	System.out.format("|%1$-10s|%2$-10s|%3$-10s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
-	    			"----------", "----------", "----------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
+	    		System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+	    				fam.getId(), fam.getMarriageDate() == null ? "NA" : fam.getMarriageDate(), fam.getDivorceDate() == null ? "NA" : fam.getDivorceDate(), fam.getHusbandId(),
+	    								fam.getHusbandName(),fam.getWifeId(), fam.getWifeName(),fam.getChildrenIdAsString());
+	    	System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+	    			"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
 	    							
         
         }  catch (IOException e) {
