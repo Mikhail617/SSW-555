@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -42,17 +43,27 @@ public class GedcomLint {
 		VALID_LEVEL_TAGS.put("2", values);
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ParseException {
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Please enter the name of the file: ");
-		
+	
         // open filename from argument
         String fileName = sc.nextLine();;
     	File f = new File(fileName);
-
+    	
+    	// Implementation/Execution related to Project 2 and 3
 //		Project02.parseAndPrintGEDCOMData(f);
-		Project03.printINDIAndFAMTables(f);
+//		Project03.printINDIAndFAMTables(f);
+    	
+    	// Execution of user story 1 and 2
+    	US_1_2_DateValidation validations = new US_1_2_DateValidation();
+    	validations.readIndividualsAndFamilies(f);
+    	validations.validateDateGreaterThanToday();
+    	validations.validateBirthBeforeMarriage();
+    	
+    	// Execution of other user stories
+    	// .....
 	}
 	
 }
