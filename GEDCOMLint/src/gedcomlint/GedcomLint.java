@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -52,7 +53,13 @@ public class GedcomLint {
     	File f = new File(fileName);
 
 //		Project02.parseAndPrintGEDCOMData(f);
-		Project03.printINDIAndFAMTables(f);
+//		Project03.printINDIAndFAMTables(f);
+    	try {
+			US09.parseGedcomFile(f);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
