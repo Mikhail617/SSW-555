@@ -66,7 +66,7 @@ public class GedcomLint {
     	// .....
     	
     	try {
-			US09.parseGedcomFile(f);
+			US_09_10.parseGedcomFile(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import gedcomlint.Family;
 import gedcomlint.Individual;
-import gedcomlint.US09;
+import gedcomlint.US_09_10;
 
 import static org.junit.Assert.assertEquals;
 
@@ -200,7 +200,7 @@ public class UnitTests {
 		   String msg = "ERROR: Mother's death date cannot be before child's birthdate.";
 		   String[] result = null;
 		   try {
-			result = US09.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
+			result = US_09_10.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -213,7 +213,7 @@ public class UnitTests {
 		   String msg = "ERROR: Father's death date cannot be more than 9 months before child's birthdate.";
 		   String[] result = null;
 		   try {
-			result = US09.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
+			result = US_09_10.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

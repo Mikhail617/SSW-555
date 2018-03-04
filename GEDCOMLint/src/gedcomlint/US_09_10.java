@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class US09 {
+public class US_09_10 {
 	private static List<Individual> allIndividuals = new ArrayList<Individual>();
 	private static List<Family> allFamilies = new ArrayList<Family>();
 
@@ -177,6 +177,7 @@ public class US09 {
 	    	}
 	    	
 	    	checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
+	    	checkMarriageBeforeFourteen(allIndividuals, allFamilies);
 	    	
 	    	// at this stage we have all Individuals stored in list named allIndividuals
 	    	System.out.println("Individuals");
@@ -229,12 +230,12 @@ public class US09 {
 
 	}
 	
-	
 	// Check all of the children't birthdates to make sure that
 	// it's before the mother's death and, if the father is dead,
 	// make sure that the birth is less than nine months before the
 	// father's death date.
 	public static String[] checkBirthsBeforeMothersDeaths(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
+		System.out.println("Start: Validating birthdates are before mother's death date.");
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
 		for(Individual ind: allIndividuals)	 {
@@ -303,6 +304,40 @@ public class US09 {
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
 		}
+		System.out.println("Complete: Validating birthdates are before mother's death date.");
+		return errors;
+	}
+	
+	public static String[] checkMarriageBeforeFourteen(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
+		System.out.println("Start: Validating that marriage dates are after the individual is fourteen years of age.");
+		String[] errors = new String[allIndividuals.size()];
+		int error_index = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+		for(Family family: allFamilies) {
+			String husbandId = family.getHusbandId();
+			String wifeId = family.getWifeId();
+			Date marriageDate = sdf.parse(family.getMarriageDate());
+			for(Individual individual: allIndividuals) {
+				if(individual.getId().equals(husbandId) || individual.getId().equals(wifeId)) {
+					Calendar birthdate = Calendar.getInstance();
+					String[] birthdate_params = individual.getBirthDate().split(" ");
+					Date month = new SimpleDateFormat("MMM").parse(birthdate_params[1]);
+					birthdate.set(Integer.parseInt(birthdate_params[2]), month.getMonth(), 
+							Integer.parseInt(birthdate_params[0]));
+					birthdate.add(GregorianCalendar.YEAR, 14);
+					if(marriageDate.before(birthdate.getTime())) {
+						String error = "ERROR: Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getId();
+						System.out.println(error);
+						errors[error_index] = error;
+					}
+				}
+			}
+		}
+		
+		if (error_index == 0) {
+			errors[error_index++] = "No errors found."; 
+		}
+		System.out.println("Complete: Validating that marriage dates are after the individual is fourteen years of age.");
 		return errors;
 	}
 }
