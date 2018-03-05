@@ -235,7 +235,7 @@ public class US_09_10 {
 	// make sure that the birth is less than nine months before the
 	// father's death date.
 	public static String[] checkBirthsBeforeMothersDeaths(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
-		System.out.println("Start: Validating birthdates are before mother's death date.");
+		//System.out.println("Start: Validating birthdates are before mother's death date.");
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
 		for(Individual ind: allIndividuals)	 {
@@ -263,7 +263,7 @@ public class US_09_10 {
 						} else {
 							Date deathdate = sdf.parse(i.getDeathDate());
 							if(deathdate.before(birthdate)) {
-								String error = "ERROR: Mother's death date cannot be before child's birthdate.";
+								String error = "ERROR: INDIVIDUAL: " + i.getId() + ": Mother's death date cannot be before child's birthdate.";
 								System.out.println(error);
 								errors[error_index++] = error;
 								
@@ -287,7 +287,7 @@ public class US_09_10 {
 							//deathdate_plus_nine_months.add(GregorianCalendar.MONTH, 9);
 							deathdate.add(GregorianCalendar.MONTH, 9);
 							if(birthdate.after(deathdate.getTime())) {
-								String warning = "ERROR: Father's death date cannot be more than 9 months before child's birthdate.";
+								String warning = "ERROR: INDIVIDUAL: " + i.getId() + ": Father's death date cannot be more than 9 months before child's birthdate.";
 								System.out.println(warning);
 								errors[error_index++] = warning;
 							}
@@ -304,12 +304,12 @@ public class US_09_10 {
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
 		}
-		System.out.println("Complete: Validating birthdates are before mother's death date.");
+		//System.out.println("Complete: Validating birthdates are before mother's death date.");
 		return errors;
 	}
 	
 	public static String[] checkMarriageBeforeFourteen(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
-		System.out.println("Start: Validating that marriage dates are after the individual is fourteen years of age.");
+		//System.out.println("Start: Validating that marriage dates are after the individual is fourteen years of age.");
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
@@ -326,7 +326,7 @@ public class US_09_10 {
 							Integer.parseInt(birthdate_params[0]));
 					birthdate.add(GregorianCalendar.YEAR, 14);
 					if(marriageDate.before(birthdate.getTime())) {
-						String error = "ERROR: Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getId();
+						String error = "ERROR: INDIVIDUAL: US10: " + individual.getId() + ": Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getId();
 						System.out.println(error);
 						errors[error_index] = error;
 					}
@@ -337,7 +337,7 @@ public class US_09_10 {
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
 		}
-		System.out.println("Complete: Validating that marriage dates are after the individual is fourteen years of age.");
+		//System.out.println("Complete: Validating that marriage dates are after the individual is fourteen years of age.");
 		return errors;
 	}
 }
