@@ -6,8 +6,9 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-public class US_1_2_DateValidationTest {
+public class DateValidationTest {
 
+	
 	@Test
 	public void testGetWordsFromLine() {
 		US_1_2_DateValidation validations = new US_1_2_DateValidation();
