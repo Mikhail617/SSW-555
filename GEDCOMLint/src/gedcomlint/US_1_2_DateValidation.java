@@ -170,41 +170,36 @@ public class US_1_2_DateValidation {
 	}
 	
 	public void validateDateGreaterThanToday() throws ParseException {
-		System.out.println("Start : Validating if any date is greater than today");
 		
     	// at this stage we have all Individuals and Families 
     	for(Individual currentIndv : allIndividuals) {
     		if(!currentIndv.getBirthDate().equals("NA") && isGreaterThanToday(currentIndv.getBirthDate())) {
-    			System.out.println(currentIndv.name + " has invalid birth date.");
+    			System.out.println("ERROR: INDIVIDUAL: US01: " + currentIndv.id + ": Birthday " + currentIndv.birthDate + " occurs in future.");
     		}
     		
     		if(!currentIndv.getDeathDate().equals("NA") && isGreaterThanToday(currentIndv.getDeathDate())) {
-    			System.out.println(currentIndv.name + " has invalid death date.");
+    			System.out.println("ERROR: INDIVIDUAL: US01: " + currentIndv.id + ": Death " + currentIndv.deathDate + " occurs in future.");
     		}
     	}
 
     	for(Family fam: allFamilies) {
     		if(!fam.getMarriageDate().equals("NA") && isGreaterThanToday(fam.getMarriageDate())) {
-    			System.out.println(fam.id + " has invalid marriage date.");
+    			System.out.println("ERROR: FAMILY: US01: " + fam.id + ": Marriage date " + fam.getMarriageDate() + " occurs in future.");
     		}
     	}
-    	
-    	System.out.println("Complete : Validating if any date is greater than today");
 	}
 
 	public void validateBirthBeforeMarriage() throws ParseException {
-		System.out.println("Start : Validating if birth date is after marriage date");
     	// at this stage we have all Individuals and Families 
     	for(Individual currentIndv : allIndividuals) {
     		
     		Family famOfPerson = getFamily(currentIndv.getId());
     		if(famOfPerson != null) {
         		if(isGreater(currentIndv.getBirthDate(), famOfPerson.getMarriageDate())) {
-        			System.out.println(currentIndv.name + " has invalid birth date or marriage date.");
+        			System.out.println("ERROR: INDIVIDUAL: US02: " +currentIndv.id + ": Birthdate " + currentIndv.birthDate + " occurs after marriage date " + famOfPerson.getMarriageDate()+".");
         		}
     		}
     	}
-    	System.out.println("Complete : Validating if birth date is after marriage date");
 	}
 
 	private Family getFamily(String id) {

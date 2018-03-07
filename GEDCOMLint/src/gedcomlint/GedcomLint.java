@@ -53,8 +53,8 @@ public class GedcomLint {
     	File f = new File(fileName);
     	
     	// Implementation/Execution related to Project 2 and 3
-//		Project02.parseAndPrintGEDCOMData(f);
-//		Project03.printINDIAndFAMTables(f);
+		Project02.parseAndPrintGEDCOMData(f);
+		Project03.printINDIAndFAMTables(f);
     	
     	// Execution of user story 1 and 2
     	US_1_2_DateValidation validations = new US_1_2_DateValidation();
