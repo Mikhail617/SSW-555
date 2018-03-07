@@ -6,7 +6,7 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-public class DateValidationTest {
+public class US_1_2_DateValidationTest {
 
 	
 	@Test
