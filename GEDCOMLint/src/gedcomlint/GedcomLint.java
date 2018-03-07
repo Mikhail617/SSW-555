@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.io.BufferedReader;
@@ -63,7 +64,12 @@ public class GedcomLint {
     	validations.validateBirthBeforeMarriage();
     	
     	// Execution of other user stories
-    	// .....
+    	// Execution of user story 30 and 31
+    	List<Individual> allIndividuals = ReadFile.getIndividuals(f);
+    	List<Family> allFamilies = ReadFile.getFamilies(f);
+
+    	YuanmingUserStory.US30(allIndividuals, allFamilies);
+    	YuanmingUserStory.US31(allIndividuals, allFamilies);
 	}
 	
 }
