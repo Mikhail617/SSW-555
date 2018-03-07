@@ -326,9 +326,9 @@ public class US_09_10 {
 							Integer.parseInt(birthdate_params[0]));
 					birthdate.add(GregorianCalendar.YEAR, 14);
 					if(marriageDate.before(birthdate.getTime())) {
-						String error = "ERROR: INDIVIDUAL: US10: " + individual.getId() + ": Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getId();
+						String error = "ERROR: INDIVIDUAL: US10: " + individual.getId() + ": Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getBirthDate();
 						System.out.println(error);
-						errors[error_index] = error;
+						errors[error_index++] = error;
 					}
 				}
 			}

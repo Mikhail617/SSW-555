@@ -197,7 +197,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testBirthAfterMotherDeath() {
-		   String msg = "ERROR: Mother's death date cannot be before child's birthdate.";
+		   String msg = "ERROR: INDIVIDUAL: I3: Mother's death date cannot be before child's birthdate.";
 		   String[] result = null;
 		   try {
 			result = US_09_10.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
@@ -210,7 +210,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testBirthMoreThanNineMonthsAfterFatherDeath() {
-		   String msg = "ERROR: Father's death date cannot be more than 9 months before child's birthdate.";
+		   String msg = "ERROR: INDIVIDUAL: I9: Father's death date cannot be more than 9 months before child's birthdate.";
 		   String[] result = null;
 		   try {
 			result = US_09_10.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
@@ -237,7 +237,15 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testMarriageBeforeFourteenYearsOldWife() {
-		   
+		   String msg = "ERROR: INDIVIDUAL: US10: I1: Marriage date cannot be less than fourteen years after person's birthdate: 10 JUL 2009 ";
+		   String[] result = null;
+		   try {
+			result = US_09_10.checkMarriageBeforeFourteen(allIndividuals, allFamilies);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   assertEquals(msg, result[0]);
 	   }
 	   
 	   @Test 
