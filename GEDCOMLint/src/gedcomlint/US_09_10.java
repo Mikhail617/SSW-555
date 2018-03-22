@@ -277,25 +277,16 @@ public class US_09_10 {
 							//System.out.println("Father of child " + famId + " is still alive.");
 						} else {
 							Calendar deathdate = Calendar.getInstance();
-							//Calendar deathdate_plus_nine_months = Calendar.getInstance();
 							String[] death_date_params = i.getDeathDate().split(" ");
 							Date month = new SimpleDateFormat("MMM").parse(death_date_params[1]);
 							deathdate.set(Integer.parseInt(death_date_params[2]), month.getMonth(), 
 									Integer.parseInt(death_date_params[0]));
-							//deathdate_plus_nine_months.set(Integer.parseInt(death_date_params[2]), month.getMonth(), 
-							//		Integer.parseInt(death_date_params[0]));
-							//deathdate_plus_nine_months.add(GregorianCalendar.MONTH, 9);
 							deathdate.add(GregorianCalendar.MONTH, 9);
 							if(birthdate.after(deathdate.getTime())) {
 								String warning = "ERROR: INDIVIDUAL: " + i.getId() + ": Father's death date cannot be more than 9 months before child's birthdate.";
 								System.out.println(warning);
 								errors[error_index++] = warning;
 							}
-							//else if(birthdate.after(deathdate_plus_nine_months.getTime())) {
-							//	String error = "ERROR: Father's death date cannot be more than 9 months before child's birthdate.";
-							//	System.out.println(error);
-							//	errors[error_index++] = error;								
-							//}
 						}
 					}
 				}
@@ -305,6 +296,52 @@ public class US_09_10 {
 			errors[error_index++] = "No errors found."; 
 		}
 		//System.out.println("Complete: Validating birthdates are before mother's death date.");
+		return errors;
+	}
+	
+	public static String[] checkBirthLessThanNineMonthsBeforeFathersDeath(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
+		String[] errors = new String[allIndividuals.size()];
+		int error_index = 0;
+		String fatherId = null;
+		// Iterate through all individuals
+		for(Individual ind: allIndividuals)	 {		
+			Date birthdate = null;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+			// Get the family IDs and iterate through the families
+			if(!ind.getChildFamilyIds().isEmpty()) {
+				String famId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
+						.replaceAll("\\}", "").replaceAll("'", "");	// TODO: handle multiple family IDs per individual
+				for(Family fam: allFamilies) {
+					if(fam.getId().equals(famId)) {
+						fatherId = fam.getHusbandId();
+						break;
+					}
+				}
+				// Iterate through individuals to find the father by ID
+				for(Individual i: allIndividuals)	 {
+					if(i.getId().equals(fatherId)) {
+						// if the father is dead:
+						if(!i.getDeathDate().equals("NA")) {
+							// check to make sure the individual's birthdate is not more than nine months after father's death
+							Calendar deathdate = Calendar.getInstance();
+							Calendar deathdate_plus_nine_months = Calendar.getInstance();
+							String[] death_date_params = i.getDeathDate().split(" ");
+							Date month = new SimpleDateFormat("MMM").parse(death_date_params[1]);
+							deathdate.set(Integer.parseInt(death_date_params[2]), month.getMonth(), 
+									Integer.parseInt(death_date_params[0]));
+							deathdate_plus_nine_months.set(Integer.parseInt(death_date_params[2]), month.getMonth(), 
+									Integer.parseInt(death_date_params[0]));
+							deathdate_plus_nine_months.add(GregorianCalendar.MONTH, 9);
+							if(birthdate.after(deathdate_plus_nine_months.getTime())) {
+								String warning = "ERROR: INDIVIDUAL: " + i.getId() + ": Father's death date cannot be more than 9 months before child's birthdate.";
+								System.out.println(warning);
+								errors[error_index++] = warning;
+							}
+						}
+					}
+				}
+			}	
+		}
 		return errors;
 	}
 	
