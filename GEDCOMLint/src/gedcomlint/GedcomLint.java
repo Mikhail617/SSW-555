@@ -70,6 +70,14 @@ public class GedcomLint {
 
     	YuanmingUserStory.US30(allIndividuals, allFamilies);
     	YuanmingUserStory.US31(allIndividuals, allFamilies);
+
+    	// User stories 9 and 10
+    	try {
+			US_09_10.parseGedcomFile(f);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
