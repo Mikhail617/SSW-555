@@ -209,30 +209,17 @@ public class UnitTests {
 	   }
 	   
 	   @Test
-	   public void testBirthMoreThanNineMonthsAfterFatherDeath() {
+	   public void testBirthLessThanNineMonthsAfterFatherDeath() {
 		   String msg = "ERROR: INDIVIDUAL: I9: Father's death date cannot be more than 9 months before child's birthdate.";
 		   String[] result = null;
 		   try {
-			result = US_09_10.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
+			result = US_09_10.checkBirthLessThanNineMonthsAfterFathersDeath(allIndividuals, allFamilies);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		   assertEquals(msg, result[1]);		   
+		   assertEquals(msg, result[0]);			   
 	   }
-	   
-	   /*@Test
-	   public void testBirthLessThanNineMonthsAfterFatherDeath() {
-		   String msg = "WARNING: Child born after father's death";
-		   String[] result = null;
-		   try {
-			result = US09.checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		   assertEquals(msg, result[2]);			   
-	   }*/
 	   
 	   
 	   @Test

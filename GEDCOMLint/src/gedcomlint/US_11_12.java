@@ -9,12 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-public class US_09_10 {
+public class US_11_12 {
 	private static List<Individual> allIndividuals = new ArrayList<Individual>();
 	private static List<Family> allFamilies = new ArrayList<Family>();
 
@@ -175,10 +173,7 @@ public class US_09_10 {
 				}
 				
 	    	}
-	    	
-	    	checkBirthsBeforeMothersDeaths(allIndividuals, allFamilies);
-	    	checkMarriageBeforeFourteen(allIndividuals, allFamilies);
-	    	checkBirthLessThanNineMonthsAfterFathersDeath(allIndividuals, allFamilies);
+
 	    	
 	    	// at this stage we have all Individuals stored in list named allIndividuals
 	    	System.out.println("Individuals");
@@ -231,134 +226,59 @@ public class US_09_10 {
 
 	}
 	
-	// Check all of the children't birthdates to make sure that
-	// it's before the mother's death and, if the father is dead,
-	// make sure that the birth is less than nine months before the
-	// father's death date.
-	public static String[] checkBirthsBeforeMothersDeaths(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
-		//System.out.println("Start: Validating birthdates are before mother's death date.");
+	/**************************************************************
+	 * Marriage should not occur during marriage to another spouse
+	 **************************************************************/
+	public static String[] checkNoBigamy(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
-		for(Individual ind: allIndividuals)	 {
-			Individual mother = null;
-			String motherId = null;
-			Date birthdate;
-			SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-			if(!ind.getChildFamilyIds().isEmpty()) {
-				String famId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
-						.replaceAll("\\}", "").replaceAll("'", "");
-				birthdate = sdf.parse(ind.getBirthDate());
+		// Iterate through all individuals, look for multiple family IDs
+		for(Individual ind: allIndividuals) {
+			String[] famIds = ind.getChildFamilyIdsAsString().split(",");
+			if(famIds.length > 1) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+				Date marriedDate = null;
+				Date divorcedDate = null;
+				Date currentMarriedDate = null;
 				for(Family fam: allFamilies) {
-					if(fam.getId().equals(famId)) {
-						motherId = fam.getWifeId();
-						break;
-					}
-				}
-				for(Individual i: allIndividuals) {
-					if(i.getId().equals(motherId)) {
-						if(i.isAlive().equals("True")) {
-							//System.out.println("Mother of child " + famId + " is still alive.");
+					boolean isDivorced = false;
+					if(Arrays.asList(famIds).contains(fam.getId())) {
+						marriedDate = sdf.parse(fam.getMarriageDate());
+						divorcedDate = sdf.parse(fam.getDivorceDate());
+						if(divorcedDate.equals("NA")) {
+							currentMarriedDate = marriedDate; 
 						} else {
-							Date deathdate = sdf.parse(i.getDeathDate());
-							if(deathdate.before(birthdate)) {
-								String error = "ERROR: INDIVIDUAL: " + i.getId() + ": Mother's death date cannot be before child's birthdate.";
+							if(currentMarriedDate.before(divorcedDate)) {
+								String error = "ERROR: FAMILY: " + fam.getId() + ": current marriage date cannot be before the previous divorce date.";
 								System.out.println(error);
 								errors[error_index++] = error;
-								
-							} else {
-								//System.out.println("Mother's death is after childs birth.");
 							}
 						}
 					}
 				}
+				
 			}
 		}
+		//
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
 		}
-		//System.out.println("Complete: Validating birthdates are before mother's death date.");
 		return errors;
 	}
 	
-	public static String[] checkBirthLessThanNineMonthsAfterFathersDeath(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
-		String[] errors = new String[allIndividuals.size()];
-		int error_index = 0;
-		String fatherId = null;
-		// Iterate through all individuals
-		for(Individual ind: allIndividuals)	 {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-			Date birthdate = sdf.parse(ind.getBirthDate());
-			// Get the family IDs and iterate through the families
-			if(!ind.getChildFamilyIds().isEmpty()) {
-				String famId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
-						.replaceAll("\\}", "").replaceAll("'", "");	// TODO: handle multiple family IDs per individual
-				for(Family fam: allFamilies) {
-					if(fam.getId().equals(famId)) {
-						fatherId = fam.getHusbandId();
-						break;
-					}
-				}
-				// Iterate through individuals to find the father by ID
-				for(Individual i: allIndividuals)	 {
-					if(i.getId().equals(fatherId)) {
-						// if the father is dead:
-						if(i.isAlive().equals("True")) {
-							//System.out.println("Father of child " + famId + " is still alive.");
-						} else {
-							// check to make sure the individual's birthdate is not more than nine months after father's death
-							Calendar deathdate = Calendar.getInstance();
-							String[] death_date_params = i.getDeathDate().split(" ");
-							Date month = new SimpleDateFormat("MMM").parse(death_date_params[1]);
-							deathdate.set(Integer.parseInt(death_date_params[2]), month.getMonth(), 
-									Integer.parseInt(death_date_params[0]));
-							deathdate.add(GregorianCalendar.MONTH, 9);
-							if(birthdate.after(deathdate.getTime())) {
-								String warning = "ERROR: INDIVIDUAL: " + i.getId() + ": Father's death date cannot be more than 9 months before child's birthdate.";
-								System.out.println(warning);
-								errors[error_index++] = warning;
-							}
-						}
-					}
-				}
-			}	
-		}
-		if (error_index == 0) {
-			errors[error_index++] = "No errors found."; 
-		}
-		System.out.println("Complete: Validating birthdates are before nine months after father's death date.");
-		return errors;
-	}
 	
-	public static String[] checkMarriageBeforeFourteen(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
-		//System.out.println("Start: Validating that marriage dates are after the individual is fourteen years of age.");
+	/******************************************************************** 
+	 * Mother should be less than 60 years older than her children
+	 * and father should be less than 80 years older than his children
+	 ********************************************************************/
+	public static String[] checkParentsNotTooOld(List<Individual> allIndividuals, List<Family> allFamilies) {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
-		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-		for(Family family: allFamilies) {
-			String husbandId = family.getHusbandId();
-			String wifeId = family.getWifeId();
-			Date marriageDate = sdf.parse(family.getMarriageDate());
-			for(Individual individual: allIndividuals) {
-				if(individual.getId().equals(husbandId) || individual.getId().equals(wifeId)) {
-					Calendar birthdate = Calendar.getInstance();
-					String[] birthdate_params = individual.getBirthDate().split(" ");
-					Date month = new SimpleDateFormat("MMM").parse(birthdate_params[1]);
-					birthdate.set(Integer.parseInt(birthdate_params[2]), month.getMonth(), 
-							Integer.parseInt(birthdate_params[0]));
-					birthdate.add(GregorianCalendar.YEAR, 14);
-					if(marriageDate.before(birthdate.getTime())) {
-						String error = "ERROR: INDIVIDUAL: US10: " + individual.getId() + ": Marriage date cannot be less than fourteen years after person's birthdate: " + individual.getBirthDate();
-						System.out.println(error);
-						errors[error_index++] = error;
-					}
-				}
-			}
-		}
-		
+		//		
+		//
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
 		}
-		//System.out.println("Complete: Validating that marriage dates are after the individual is fourteen years of age.");
 		return errors;
 	}
 }
