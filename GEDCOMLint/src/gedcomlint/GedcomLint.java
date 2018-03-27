@@ -58,18 +58,16 @@ public class GedcomLint {
 		Project03.printINDIAndFAMTables(f);
     	
     	// Execution of user story 1 and 2
+		ReadFile file = new ReadFile(f);
+		
     	US_1_2_DateValidation validations = new US_1_2_DateValidation();
-    	validations.readIndividualsAndFamilies(f);
-    	validations.validateDateGreaterThanToday();
-    	validations.validateBirthBeforeMarriage();
+    	validations.validateDateGreaterThanToday(file.getIndividuals(), file.getFamilies());
+    	validations.validateBirthBeforeMarriage(file.getIndividuals(), file.getFamilies());
     	
     	// Execution of other user stories
     	// Execution of user story 30 and 31
-    	List<Individual> allIndividuals = ReadFile.getIndividuals(f);
-    	List<Family> allFamilies = ReadFile.getFamilies(f);
-
-    	YuanmingUserStory.US30(allIndividuals, allFamilies);
-    	YuanmingUserStory.US31(allIndividuals, allFamilies);
+    	YuanmingUserStory.US30(file.getIndividuals(), file.getFamilies());
+    	YuanmingUserStory.US31(file.getIndividuals(), file.getFamilies());
 
     	// User stories 9 and 10
     	try {
