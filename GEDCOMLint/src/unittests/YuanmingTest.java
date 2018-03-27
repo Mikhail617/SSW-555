@@ -114,17 +114,19 @@ public class YuanmingTest {
 //	
 	@Test
 	public void testU30() {
-		List<Individual> allIndividuals = ReadFile.getIndividuals(f);
-		List<Family> allFamilies = ReadFile.getFamilies(f);
+		ReadFile file = new ReadFile(f);
+		List<Individual> allIndividuals = file.getIndividuals();
+		List<Family> allFamilies = file.getFamilies();
 	
 		YuanmingUserStory.US30(allIndividuals, allFamilies);
 	}
 	
 	@Test
 	public void testU31() {
-		List<Individual> allIndividuals = ReadFile.getIndividuals(f);
-		List<Family> allFamilies = ReadFile.getFamilies(f);
-	
+		ReadFile file = new ReadFile(f);
+		List<Individual> allIndividuals = file.getIndividuals();
+		List<Family> allFamilies = file.getFamilies();
+
 		YuanmingUserStory.US31(allIndividuals, allFamilies);
 	}
 	
