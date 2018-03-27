@@ -22,7 +22,7 @@ public class Family {
 		this.id = id;
 	}
 	public String getMarriageDate() {
-		return marriageDate;
+		return marriageDate == null ? "NA" : marriageDate;
 	}
 	public void setMarriageDate(String marriageDate) {
 		this.marriageDate = marriageDate;
@@ -34,7 +34,7 @@ public class Family {
 		this.isDivorced = isDivorced;
 	}
 	public String getDivorceDate() {
-		return divorceDate;
+		return divorceDate == null ? "NA" : divorceDate;
 	}
 	public void setDivorceDate(String divorceDate) {
 		this.divorceDate = divorceDate;

@@ -37,7 +37,7 @@ public class Individual {
 		this.gender = gender;
 	}
 	public String getBirthDate() {
-		return birthDate;
+		return birthDate == null ? "NA" : birthDate;
 	}
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;

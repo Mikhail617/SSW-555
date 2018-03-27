@@ -64,6 +64,11 @@ public class GedcomLint {
     	validations.validateDateGreaterThanToday(file.getIndividuals(), file.getFamilies());
     	validations.validateBirthBeforeMarriage(file.getIndividuals(), file.getFamilies());
     	
+    	US_03_04_Validations validations2 = new US_03_04_Validations();
+    	validations2.validateBirthBeforeDeath(file.getIndividuals(), file.getFamilies());
+    	validations2.validateMarriageBeforeDivorce(file.getIndividuals(), file.getFamilies());
+    	
+    	
     	// Execution of other user stories
     	// Execution of user story 30 and 31
     	YuanmingUserStory.US30(file.getIndividuals(), file.getFamilies());
