@@ -9,7 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class US_11_12 {
@@ -270,11 +272,68 @@ public class US_11_12 {
 	/******************************************************************** 
 	 * Mother should be less than 60 years older than her children
 	 * and father should be less than 80 years older than his children
+	 * @throws ParseException 
 	 ********************************************************************/
-	public static String[] checkParentsNotTooOld(List<Individual> allIndividuals, List<Family> allFamilies) {
+	public static String[] checkParentsNotTooOld(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
-		//		
+		// Iterate through all families
+		for(Family fam: allFamilies) {
+			Individual mother;
+			Individual father;
+			Individual child;
+			Date mothersBirthdate = null;
+			Date fathersBirthdate = null;
+			Date childBirthdate;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+			SimpleDateFormat ydf = new SimpleDateFormat("yyyy");
+			String strDate = "";
+			String strMom = "";
+			String strDad = "";
+			Date birthDate = null;
+			Date birthOfMom = null;
+			Date birthOfDad = null;
+			
+			// Get parent's IDs-
+			String motherId = fam.getWifeId();
+			String fatherId = fam.getHusbandId();
+			
+			// Get children IDs
+			String[] childIds = fam.getChildrenIdAsString().replaceAll("\\{", "")
+					.replaceAll("\\}", "").replaceAll("'", "").split(",");
+			
+			// Get the parent's birthdates
+			for(Individual i: allIndividuals) {
+				if(i.getId().equals(motherId)) {
+					mothersBirthdate = sdf.parse(i.getBirthDate());
+				}
+				else if (i.getId().equals(fatherId)) {
+					fathersBirthdate = sdf.parse(i.getBirthDate());
+				}
+			}
+			
+			// Now find the children's birthdates to do the actual validation
+			for(String id: childIds) {
+				for(Individual ind: allIndividuals) {
+					if(ind.getId().equals(id)) {
+						childBirthdate = sdf.parse(ind.getBirthDate());
+						strDate = ydf.format(childBirthdate);
+						if (mothersBirthdate != null) {
+							strMom = ydf.format(mothersBirthdate);
+							if ((Integer.parseInt(strDate) - Integer.parseInt(strMom)) >= 60) {
+								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " mother is more than 60 years older than her child\n";
+							}
+						}
+						if (fathersBirthdate != null) {
+							strDad = ydf.format(fathersBirthdate);
+							if ((Integer.parseInt(strDate) - Integer.parseInt(strDad)) >= 80) {
+								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " father is more than 80 years older than her child\n";
+							}
+						}
+					}
+				}
+			}
+		}
 		//
 		if (error_index == 0) {
 			errors[error_index++] = "No errors found."; 
