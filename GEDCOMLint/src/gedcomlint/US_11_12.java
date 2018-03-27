@@ -279,9 +279,6 @@ public class US_11_12 {
 		int error_index = 0;
 		// Iterate through all families
 		for(Family fam: allFamilies) {
-			Individual mother;
-			Individual father;
-			Individual child;
 			Date mothersBirthdate = null;
 			Date fathersBirthdate = null;
 			Date childBirthdate;
@@ -290,10 +287,6 @@ public class US_11_12 {
 			String strDate = "";
 			String strMom = "";
 			String strDad = "";
-			Date birthDate = null;
-			Date birthOfMom = null;
-			Date birthOfDad = null;
-			
 			// Get parent's IDs-
 			String motherId = fam.getWifeId();
 			String fatherId = fam.getHusbandId();
