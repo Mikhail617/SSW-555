@@ -235,6 +235,16 @@ public class UnitTests {
 		   assertEquals(msg, result[0]);
 	   }
 	   
+	   @Test
+	   public void testNoBigamy() {
+		   
+	   }
+	   
+	   @Test
+	   public void testParentsNotTooOld() {
+		   
+	   }
+	   
 	   @Test 
 	   public void testMarriageBeforeFourteenYearsOldHusband() {
 		   
