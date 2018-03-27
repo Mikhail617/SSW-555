@@ -5,6 +5,7 @@ import org.junit.Test;
 import gedcomlint.Family;
 import gedcomlint.Individual;
 import gedcomlint.US_09_10;
+import gedcomlint.US_11_12;
 
 import static org.junit.Assert.assertEquals;
 
@@ -237,12 +238,28 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testNoBigamy() {
-		   
+		   String msg = "ERROR:";
+		   String[] result = null;
+		   try {
+			result = US_11_12.checkNoBigamy(allIndividuals, allFamilies);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   assertEquals(msg, result[0]);		   
 	   }
 	   
 	   @Test
 	   public void testParentsNotTooOld() {
-		   
+		   String msg = "ERROR:";
+		   String[] result = null;
+		   try {
+			result = US_11_12.checkParentsNotTooOld(allIndividuals, allFamilies);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   assertEquals(msg, result[0]);		   
 	   }
 	   
 	   @Test 
