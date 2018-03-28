@@ -251,7 +251,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testParentsNotTooOld() {
-		   String msg = "ERROR:";
+		   String msg = "ERROR: FAMILY: F4  mother is more than 60 years older than her child.";
 		   String[] result = null;
 		   try {
 			result = US_11_12.checkParentsNotTooOld(allIndividuals, allFamilies);

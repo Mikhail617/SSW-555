@@ -310,19 +310,21 @@ public class US_11_12 {
 			// Now find the children's birthdates to do the actual validation
 			for(String id: childIds) {
 				for(Individual ind: allIndividuals) {
-					if(ind.getId().equals(id)) {
+					String[] childId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
+							.replaceAll("\\}", "").replaceAll("'", "").split(",");
+					if(childId[0].equals(id)) {
 						childBirthdate = sdf.parse(ind.getBirthDate());
 						strDate = ydf.format(childBirthdate);
 						if (mothersBirthdate != null) {
 							strMom = ydf.format(mothersBirthdate);
 							if ((Integer.parseInt(strDate) - Integer.parseInt(strMom)) >= 60) {
-								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " mother is more than 60 years older than her child\n";
+								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " mother is more than 60 years older than her child.\n";
 							}
 						}
 						if (fathersBirthdate != null) {
 							strDad = ydf.format(fathersBirthdate);
 							if ((Integer.parseInt(strDate) - Integer.parseInt(strDad)) >= 80) {
-								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " father is more than 80 years older than her child\n";
+								errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " father is more than 80 years older than her child.\n";
 							}
 						}
 					}
