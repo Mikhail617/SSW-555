@@ -238,7 +238,6 @@ public class US_11_12 {
 		for(Individual ind: allIndividuals) {
 			String[] spouseIds = ind.getSpouseFamilyIdsAsString().replaceAll("\\{", "")
 					.replaceAll("\\}", "").replaceAll("'", "").split(",");
-			System.out.println(Arrays.toString(spouseIds));
 			if(spouseIds.length > 1) {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
 				Date marriedDate = null;
@@ -246,13 +245,10 @@ public class US_11_12 {
 				Date currentMarriedDate = null;
 				for(Family fam: allFamilies) {
 					boolean isDivorced = false;
-					System.out.println("fam ID = " + fam.getId());
 					if(Arrays.asList(spouseIds).contains((fam.getId()))) {
 						marriedDate = sdf.parse(fam.getMarriageDate());
-						System.out.println("marriedDate = " + marriedDate);
 						if(!fam.getDivorceDate().equals("NA"))
 							divorcedDate = sdf.parse(fam.getDivorceDate());
-						System.out.println("divorcedDate = " + divorcedDate);
 						if(fam.getDivorceDate().equals("NA")) {
 							currentMarriedDate = marriedDate; 
 						} else {

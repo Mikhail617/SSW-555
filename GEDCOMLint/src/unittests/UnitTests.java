@@ -238,7 +238,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testNoBigamy() {
-		   String msg = "ERROR:";
+		   String msg = "ERROR: FAMILY: F11 : current marriage date cannot be before the previous divorce date.";
 		   String[] result = null;
 		   try {
 			result = US_11_12.checkNoBigamy(allIndividuals, allFamilies);
