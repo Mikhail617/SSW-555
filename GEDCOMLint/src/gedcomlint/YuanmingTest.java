@@ -112,23 +112,38 @@ public class YuanmingTest {
 //    		
 //	}
 //	
+// 	@Test
+// 	public void testU30() {
+// 		ReadFile file = new ReadFile(f);
+// 		List<Individual> allIndividuals = file.getIndividuals();
+// 		List<Family> allFamilies = file.getFamilies();
+	
+// 		YuanmingUserStory.US30(allIndividuals, allFamilies);
+// 	}
+	
+// 	@Test
+// 	public void testU31() {
+// 		ReadFile file = new ReadFile(f);
+// 		List<Individual> allIndividuals = file.getIndividuals();
+// 		List<Family> allFamilies = file.getFamilies();
+	
+// 		YuanmingUserStory.US31(allIndividuals, allFamilies);
+// 	}
+	
+// 	@Test
+// 	public void testU32() {
+// 		ReadFile file = new ReadFile(f);
+// 		List<Individual> allIndividuals = file.getIndividuals();
+// 		List<Family> allFamilies = file.getFamilies();
+	
+// 		YuanmingUserStory.US32(allIndividuals, allFamilies);
+// 	}
 	@Test
-	public void testU30() {
+	public void testU35() {
 		ReadFile file = new ReadFile(f);
 		List<Individual> allIndividuals = file.getIndividuals();
 		List<Family> allFamilies = file.getFamilies();
 	
-		YuanmingUserStory.US30(allIndividuals, allFamilies);
+		YuanmingUserStory.US35(allIndividuals, allFamilies);
 	}
-	
-	@Test
-	public void testU31() {
-		ReadFile file = new ReadFile(f);
-		List<Individual> allIndividuals = file.getIndividuals();
-		List<Family> allFamilies = file.getFamilies();
-	
-		YuanmingUserStory.US31(allIndividuals, allFamilies);
-	}
-	
-
 }
