@@ -1,10 +1,12 @@
 package gedcomlint;
 
-import java.sql.Date;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
@@ -84,6 +86,7 @@ public class YuanmingUserStory {
 	public static void printIndividuals(List<Individual> tempIndividuals) {
 		for(Individual currentIndv:tempIndividuals) {
 //    		Individual currentIndv = tempIndividuals.get(i);
+			
     		System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
     				currentIndv.getId(), currentIndv.getName(), currentIndv.getGender(),
     				currentIndv.getBirthDate(), currentIndv.getAge(), currentIndv.isAlive(),
@@ -123,7 +126,7 @@ public class YuanmingUserStory {
 		
 		
 //		System.out.println(tempIndividuals.size());
-		System.out.println("US30	 List living married	List all living married people in a GEDCOM file");
+		System.out.println("US30	 List living married	List all living married people in a GEDCOM file  test");
 		System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
     			"----------", "-------------------------", "-------", "------------", "-----", "-------", "------------", "--------------------", "--------------------");
     	System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", 
@@ -199,6 +202,76 @@ public class YuanmingUserStory {
 		
 	}
 	
-
+//	US32	List multiple births	List all multiple births in a GEDCOM file
+	public static void US32(List<Individual> allIndividuals, List<Family> allFamilies) {
+		
+		List<Individual> cloneIndividuals = new ArrayList<Individual>(allIndividuals);
+		List<Individual> tempIndividuals = new ArrayList<Individual>();
+		
+		
+		for(Individual indi:allIndividuals) {
+			for(Individual indiC:cloneIndividuals) {
+				if(!indi.equals(indiC)) {
+					if(indi.getBirthDate().equals(indiC.getBirthDate())) {
+						tempIndividuals.add(indi);
+					}
+				}
+			}
+		}
+		
+		earseDuplicate(tempIndividuals);
+		System.out.println("US32	List multiple births	List all multiple births in a GEDCOM file");
+		printIndividuals(tempIndividuals);
+		
+		
+		
+	}
 	
+	 public static int differentDays(String birthDate)
+	    {
+		 Date td = new Date();	
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+		 
+		 Date bd = null;
+		try {
+			bd = (Date) dateFormat.parse(birthDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 dateFormat.format(new Date());
+		 
+		 long diff = td.getTime() - bd.getTime();
+	     long days = diff / (1000 * 60 * 60 * 24);
+		return Integer.parseInt(String.valueOf(days));  
+	    }
+	
+	
+//	US35	List recent births	List all people in a GEDCOM file who were born in the last 30 days
+	public static void US35(List<Individual> allIndividuals, List<Family> allFamilies) {
+		
+		List<Individual> tempIndividuals = new ArrayList<Individual>();
+		
+		for(Individual indi:allIndividuals) {
+			
+			if(differentDays(indi.getBirthDate())<30) {
+				tempIndividuals.add(indi);
+			}
+			
+		}
+		
+		if(tempIndividuals.size()==0) {
+			System.out.println("There are no people in this GEDCOM file who were born in the last 30 days");
+		}else {
+			System.out.println("US35	List recent births	List all people in a GEDCOM file who were born in the last 30 days");
+			printIndividuals(tempIndividuals);
+		}
+		
+		
+		
+	}
+	
+		
 }
+	
+
