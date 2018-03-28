@@ -236,18 +236,24 @@ public class US_11_12 {
 		int error_index = 0;
 		// Iterate through all individuals, look for multiple family IDs
 		for(Individual ind: allIndividuals) {
-			String[] famIds = ind.getChildFamilyIdsAsString().split(",");
-			if(famIds.length > 1) {
+			String[] spouseIds = ind.getSpouseFamilyIdsAsString().replaceAll("\\{", "")
+					.replaceAll("\\}", "").replaceAll("'", "").split(",");
+			System.out.println(Arrays.toString(spouseIds));
+			if(spouseIds.length > 1) {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
 				Date marriedDate = null;
 				Date divorcedDate = null;
 				Date currentMarriedDate = null;
 				for(Family fam: allFamilies) {
 					boolean isDivorced = false;
-					if(Arrays.asList(famIds).contains(fam.getId())) {
+					System.out.println("fam ID = " + fam.getId());
+					if(Arrays.asList(spouseIds).contains((fam.getId()))) {
 						marriedDate = sdf.parse(fam.getMarriageDate());
-						divorcedDate = sdf.parse(fam.getDivorceDate());
-						if(divorcedDate.equals("NA")) {
+						System.out.println("marriedDate = " + marriedDate);
+						if(!fam.getDivorceDate().equals("NA"))
+							divorcedDate = sdf.parse(fam.getDivorceDate());
+						System.out.println("divorcedDate = " + divorcedDate);
+						if(fam.getDivorceDate().equals("NA")) {
 							currentMarriedDate = marriedDate; 
 						} else {
 							if(currentMarriedDate.before(divorcedDate)) {
