@@ -6,6 +6,7 @@ import gedcomlint.Family;
 import gedcomlint.Individual;
 import gedcomlint.US_09_10;
 import gedcomlint.US_11_12;
+import gedcomlint.US_13_14;
 
 import static org.junit.Assert.assertEquals;
 
@@ -263,12 +264,28 @@ public class UnitTests {
 	   }
 	   
 	   @Test 
-	   public void testMarriageBeforeFourteenYearsOldHusband() {
-		   
+	   public void testSiblingSpacing() {
+		   String msg = "";
+		   String[] result = null;
+		   try {
+			   result = US_13_14.checkSiblingSpacing(allIndividuals, allFamilies);
+		   } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();			   
+		   }
+		   assertEquals(msg, result[0]);
 	   }
 	   
 	   @Test
-	   public void testNormalCase() {
-		   
+	   public void testMoreThanFiveSiblingsBornAtTheSameTime() {
+		   String msg = "";
+		   String[] result = null;
+		   try {
+			   result = US_13_14.checkMultipleBirthsLessThanOrEqualToFive(allIndividuals, allFamilies);
+		   } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();			   
+		   }
+		   assertEquals(msg, result[0]);
 	   }
 }
