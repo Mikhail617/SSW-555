@@ -296,25 +296,38 @@ public class US_13_14 {
 		return errors;	
 	}
 	
-	public static String[] checkMultipleBirthsLessThanOrEqualToFive(List<Individual> allIndividuals, List<Family> allFamilies) {
+	public static String[] checkMultipleBirthsLessThanOrEqualToFive(List<Individual> allIndividuals, List<Family> allFamilies) throws ParseException {
 		String[] errors = new String[allIndividuals.size()];
+		String[] sibIds = new String[allIndividuals.size()];
 		int error_index = 0;
 		int childCount = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
 		// validation code here
 		for(Individual i: allIndividuals) {
 			String childId = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
 					.replaceAll("\\}", "").replaceAll("'", "");
+			sibIds[childCount] = childId;
+			Calendar birthdatePlusTwoDays = Calendar.getInstance();
+			String[] birthdate_params = i.getBirthDate().split(" ");
+			Date month = new SimpleDateFormat("MMM").parse(birthdate_params[1]);
+			birthdatePlusTwoDays.set(Integer.parseInt(birthdate_params[2]), month.getMonth(), 
+					Integer.parseInt(birthdate_params[0]));
+			birthdatePlusTwoDays.add(GregorianCalendar.DATE, 2);
 			for(Individual ind: allIndividuals) {
 				String siblingId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
 						.replaceAll("\\}", "").replaceAll("'", "");
-				if(siblingId.equals(childId)) {
-					childCount++;
-					if(childCount == 5) {
-						// check if they were all born at the same time
-						// if they were, it's an error
-						
+				if(siblingId.equals(childId)) {					
+					if(sdf.parse(ind.getBirthDate()).before(birthdatePlusTwoDays.getTime())) {
+						sibIds[childCount++] = siblingId;
+						if(childCount == 5) {
+							// ERROR
+							errors[error_index++] = "ERROR: FAMILY: " + childId + " five or more siblings born at the same time."; 
+						}
 					}
 				}
+			}
+			if(sibIds.length == 1) {
+				sibIds[0] = null;
 			}
 		}
 		
