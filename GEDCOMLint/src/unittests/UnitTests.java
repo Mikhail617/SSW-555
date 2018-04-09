@@ -265,7 +265,7 @@ public class UnitTests {
 	   
 	   @Test 
 	   public void testSiblingSpacing() {
-		   String msg = "";
+		   String msg = "ERROR: INDIVIDUAL: I20 born less than eight months but more than two days after his sibling I7";
 		   String[] result = null;
 		   try {
 			   result = US_13_14.checkSiblingSpacing(allIndividuals, allFamilies);
