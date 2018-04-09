@@ -299,11 +299,23 @@ public class US_13_14 {
 	public static String[] checkMultipleBirthsLessThanOrEqualToFive(List<Individual> allIndividuals, List<Family> allFamilies) {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
-		
+		int childCount = 0;
 		// validation code here
 		for(Individual i: allIndividuals) {
 			String childId = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
 					.replaceAll("\\}", "").replaceAll("'", "");
+			for(Individual ind: allIndividuals) {
+				String siblingId = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
+						.replaceAll("\\}", "").replaceAll("'", "");
+				if(siblingId.equals(childId)) {
+					childCount++;
+					if(childCount == 5) {
+						// check if they were all born at the same time
+						// if they were, it's an error
+						
+					}
+				}
+			}
 		}
 		
 		if (error_index == 0) {
