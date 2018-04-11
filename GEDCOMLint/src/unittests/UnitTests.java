@@ -278,7 +278,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testMoreThanFiveSiblingsBornAtTheSameTime() {
-		   String msg = "";
+		   String msg = "ERROR: FAMILY: F20 five or more siblings born at the same time.";
 		   String[] result = null;
 		   try {
 			   result = US_13_14.checkMultipleBirthsLessThanOrEqualToFive(allIndividuals, allFamilies);
