@@ -114,19 +114,19 @@ public class YuanmingUserStory {
 			tempId.add(fam.getWifeId());
 		}
 		// System.out.println(tempId);
-		for (String tId : tempId) {
-			for (Individual indi : allIndividuals) {
-				if (tId.equals(indi.getId())) {
-					if (indi.isAlive().equals("false")) {
-						tempId.remove(tId);
-					}
-				}
-			}
-		}
+//		for (String tId : tempId) {
+//			for (Individual indi : allIndividuals) {
+//				if (tId.equals(indi.getId())) {
+//					if (!indi.isAlive().equals("True")) {
+//						tempId.remove(tId);
+//					}
+//				}
+//			}
+//		}
 		// System.out.println(tempId);
 		for (Individual indi : allIndividuals) {
 			for (String tId : tempId) {
-				if (tId.equals(indi.getId())) {
+				if (tId.equals(indi.getId())&&indi.isAlive().equals("True")) {
 					tempIndividuals.add(indi);
 				}
 			}
@@ -189,14 +189,30 @@ public class YuanmingUserStory {
 
 		for (String tId : tempId) {
 			for (Individual indi : allIndividuals) {
-				if (tId.equals(indi.getId())) {
+				if (tId.equals(indi.getId())&&indi.isAlive().equals("True")) {
 					tempIndividuals.add(indi);
 				}
 			}
 		}
 		earseDuplicate(tempIndividuals);
+		
+		ArrayList<String> tempremoveId = new ArrayList<String>();
+		
+		for (Individual indi : tempIndividuals) {
+			if(!indi.isAlive().equals("True")) {
+				tempremoveId.add(indi.getId());
+				tempIndividuals.remove(indi);
+			}
+		}
+		
+//		for (Individual indi : tempIndividuals) {
+//			for (Individual indi : tempIndividuals) {
+//				
+//			}
+//		}
+		
 		System.out.println(
-				"US31 List living single	List all living people over 30 who have never been married in a GEDCOM file");
+				"US31 List living single	List all living people over 30 who have never been married in a GEDCOM file ");
 		System.out.format("|%1$-10s|%2$-25s|%3$-7s|%4$-12s|%5$-5s|%6$-7s|%7$-12s|%8$-20s|%9$-20s|\n", "----------",
 				"-------------------------", "-------", "------------", "-----", "-------", "------------",
 				"--------------------", "--------------------");
