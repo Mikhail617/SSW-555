@@ -67,13 +67,17 @@ public class GedcomLint {
     	US_03_04_Validations validations2 = new US_03_04_Validations();
     	validations2.validateBirthBeforeDeath(file.getIndividuals(), file.getFamilies());
     	validations2.validateMarriageBeforeDivorce(file.getIndividuals(), file.getFamilies());
+
+    	US_05_06_Validations validations3 = new US_05_06_Validations();
+    	validations3.validateMarriageBeforeDeath(file.getIndividuals(), file.getFamilies());
+    	validations3.validateDivorceBeforeDeath(file.getIndividuals(), file.getFamilies());
     	
     	
     	// Execution of other user stories
     	// Execution of user story 30 and 31
     	YuanmingUserStory.US30(file.getIndividuals(), file.getFamilies());
     	YuanmingUserStory.US31(file.getIndividuals(), file.getFamilies());
-	YuanmingUserStory.US32(file.getIndividuals(), file.getFamilies());
+	    YuanmingUserStory.US32(file.getIndividuals(), file.getFamilies());
     	YuanmingUserStory.US35(file.getIndividuals(), file.getFamilies());
     	// User stories 9 and 10
     	try {
