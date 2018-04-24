@@ -77,8 +77,10 @@ public class GedcomLint {
     	// Execution of user story 30 and 31
     	YuanmingUserStory.US30(file.getIndividuals(), file.getFamilies());
     	YuanmingUserStory.US31(file.getIndividuals(), file.getFamilies());
-	    YuanmingUserStory.US32(file.getIndividuals(), file.getFamilies());
+	YuanmingUserStory.US32(file.getIndividuals(), file.getFamilies());
     	YuanmingUserStory.US35(file.getIndividuals(), file.getFamilies());
+	YuanmingUserStory.US36(file.getIndividuals(), file.getFamilies());
+    	YuanmingUserStory.US37(file.getIndividuals(), file.getFamilies());
     	// User stories 9 and 10
     	try {
 			US_09_10.parseGedcomFile(f);
