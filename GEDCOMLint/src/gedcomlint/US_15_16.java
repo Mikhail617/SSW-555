@@ -223,7 +223,7 @@ public class US_15_16 {
 
 	}	
 	
-	public static String[] checkFewerThanFifteenSiblings() {
+	public static String[] checkFewerThanFifteenSiblings(List<Individual> allIndividuals, List<Family> allFamilies) {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
 		for(Family fam: allFamilies) {
@@ -241,7 +241,7 @@ public class US_15_16 {
 		return errors;	
 	}
 	
-	public static String[] checkMaleLastNames() {
+	public static String[] checkMaleLastNames(List<Individual> allIndividuals, List<Family> allFamilies) {
 		String[] errors = new String[allIndividuals.size()];
 		int error_index = 0;
 		

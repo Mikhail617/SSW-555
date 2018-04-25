@@ -7,6 +7,7 @@ import gedcomlint.Individual;
 import gedcomlint.US_09_10;
 import gedcomlint.US_11_12;
 import gedcomlint.US_13_14;
+import gedcomlint.US_15_16;
 
 import static org.junit.Assert.assertEquals;
 
@@ -287,5 +288,31 @@ public class UnitTests {
 				e.printStackTrace();			   
 		   }
 		   assertEquals(msg, result[0]);
+	   }
+	   
+	   @Test
+	   public void testMoreThanFifteenChildren() {
+		   String msg = "";
+		   String[] result = null;
+		   try {
+			   result = US_15_16.checkFewerThanFifteenSiblings(allIndividuals, allFamilies);
+		   } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();			   
+		   }
+		   assertEquals(msg, result[0]);		   
+	   }
+	   
+	   @Test
+	   public void testMaleLastNames() {
+		   String msg = "";
+		   String[] result = null;
+		   try {
+			   result = US_15_16.checkMaleLastNames(allIndividuals, allFamilies);
+		   } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();			   
+		   }
+		   assertEquals(msg, result[0]);		   
 	   }
 }
