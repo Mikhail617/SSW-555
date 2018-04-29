@@ -247,7 +247,21 @@ public class US_15_16 {
 		
 		//
 		for(Individual i: allIndividuals) {
-			
+			String[] childId = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
+					.replaceAll("\\}", "").replaceAll("'", "").split(",");
+			String lastName = i.getName().split("/")[1];
+			//System.out.println("last name = "+lastName);
+			if(i.getGender().equals("M")) {
+				for(Individual ind: allIndividuals) {
+					String[] childId2 = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
+							.replaceAll("\\}", "").replaceAll("'", "").split(",");
+					String lastName2 = i.getName().split("/")[1];
+					//System.out.println("last name = "+lastName);
+					if(i.getGender().equals("M") && !lastName.equals(lastName2)) {
+						errors[error_index++] = "ERROR: INDIVIDUAL: " + i.getId() + " has different last name than other males in the family.\n";
+					}
+				}
+			}
 		}
 		
 		if (error_index == 0) {
