@@ -103,6 +103,28 @@ public class YuanmingUserStory {
 		
 	}
 	
+	public static void printFamilies(List<Family> Families) {
+
+		System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+				"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
+		
+		
+		System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+				"ID", "Married", "Divorced", "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children");
+		System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-5s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+				"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
+		for(Family fam: Families) {
+			System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+					fam.getId(), fam.getMarriageDate() == null ? "NA" : fam.getMarriageDate(), fam.getDivorceDate() == null ? "NA" : fam.getDivorceDate(), fam.getHusbandId(),
+									fam.getHusbandName(),fam.getWifeId(), fam.getWifeName(),fam.getChildrenIdAsString());
+		System.out.format("|%1$-10s|%2$-12s|%3$-12s|%4$-10s|%5$-25s|%6$-10s|%7$-25s|%8$-20s|\n", 
+				"----------", "------------", "------------", "----------", "-------------------------", "----------", "-------------------------", "--------------------");
+								
+		}
+			
+	}
+	
+	
 
 	public static void US30(List<Individual> allIndividuals, List<Family> allFamilies) {
 		List<Individual> tempIndividuals = new ArrayList<Individual>();
@@ -274,7 +296,7 @@ public class YuanmingUserStory {
 	// US35 List recent births List all people in a GEDCOM file who were born in the
 	// last 30 days
 	public static void US35(List<Individual> allIndividuals, List<Family> allFamilies) {
-
+		System.out.println("US35 List recent births List all people in a GEDCOM file who were born in the last 30 days");
 		List<Individual> tempIndividuals = new ArrayList<Individual>();
 
 		for (Individual indi : allIndividuals) {
@@ -298,7 +320,7 @@ public class YuanmingUserStory {
 	// US36 List recent deaths List all people in a GEDCOM file who died in the last
 	// 30 days
 	public static void US36(List<Individual> allIndividuals, List<Family> allFamilies) {
-
+		System.out.println("US36 List recent deaths List all people in a GEDCOM file who died in the last 30 days");
 		List<Individual> tempIndividuals = new ArrayList<Individual>();
 
 		for (Individual indi : allIndividuals) {
@@ -325,6 +347,7 @@ public class YuanmingUserStory {
 	// in a GEDCOM file who died in the last 30 days
 	
 	public static String findSupouse(String temid,List<String> tempspouseFamilyIds,List<Family> allFamilies) {
+		
 		for(String id:tempspouseFamilyIds) {
 			for(Family fam:allFamilies) {
 				if(id.equals(fam.getId())) {
@@ -341,7 +364,7 @@ public class YuanmingUserStory {
 	
 	
 	public static void US37(List<Individual> allIndividuals, List<Family> allFamilies) {
-
+		System.out.println("US37 List recent survivors List all living spouses and descendants of people in a GEDCOM file who died in the last 30 days");
 		List<Individual> tempIndividuals = new ArrayList<Individual>();
 		List<Individual> tempDescendants = new ArrayList<Individual>();
 		List<String> tempDescendantId = new ArrayList<String>();
@@ -386,5 +409,48 @@ public class YuanmingUserStory {
 		}
 
 	}
-
+	// US38 List upcoming birthdays List all living people in a GEDCOM file whose
+	// birthdays occur in the next 30 days
+	public static void US38(List<Individual> allIndividuals, List<Family> allFamilies) {
+		System.out.println("US38 List upcoming birthdays List all living people in a GEDCOM file whose birthdays occur in the next 30 days");
+		List<Individual> tempIndividuals = new ArrayList<Individual>();
+		for (Individual indi : allIndividuals) {
+			if (differentDays(indi.getBirthDate()) < 30) {
+				tempIndividuals.add(indi);
+			}
+		}
+		
+		if (tempIndividuals.size() == 0) {
+			System.out.println(
+					"There are no people in this GEDCOM file who whose birthdays occur in the next 30 days");
+		} else {
+			for (Individual indi : tempIndividuals) {
+				printIndividual(indi);
+			}
+		}
+			
+				
+		
+	}
+	
+	
+	// US39 List upcoming anniversaries List all living couples in a GEDCOM file
+	// whose marriage anniversaries occur in the next 30 days
+	public static void US39(List<Individual> allIndividuals, List<Family> allFamilies) {
+		System.out.println("US39 List upcoming anniversaries List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days");
+		List<Family> tempFamilies = new ArrayList<Family>();
+		for (Family fam : allFamilies) {
+			if (differentDays(fam.getMarriageDate()) < 30) {
+				tempFamilies.add(fam);
+			}
+		}
+		if(tempFamilies.size() == 0) {
+			System.out.println("There are no upcoming anniversaries");
+		}else {
+			printFamilies(tempFamilies);
+		}
+		
+		
+	}
+		
 }
