@@ -247,17 +247,20 @@ public class US_15_16 {
 		
 		//
 		for(Individual i: allIndividuals) {
-			String[] childId = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
-					.replaceAll("\\}", "").replaceAll("'", "").split(",");
+			String childId = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
+					.replaceAll("\\}", "").replaceAll("'", "").split(",")[0];
 			String lastName = i.getName().split("/")[1];
+			//System.out.println("child ID = "+childId);
 			//System.out.println("last name = "+lastName);
-			if(i.getGender().equals("M")) {
+			if(i.getGender().trim().equals("M")) {
 				for(Individual ind: allIndividuals) {
-					String[] childId2 = i.getChildFamilyIdsAsString().replaceAll("\\{", "")
-							.replaceAll("\\}", "").replaceAll("'", "").split(",");
-					String lastName2 = i.getName().split("/")[1];
-					//System.out.println("last name = "+lastName);
-					if(i.getGender().equals("M") && !lastName.equals(lastName2)) {
+					String childId2 = ind.getChildFamilyIdsAsString().replaceAll("\\{", "")
+							.replaceAll("\\}", "").replaceAll("'", "").split(",")[0];
+					String lastName2 = ind.getName().split("/")[1];
+					//System.out.println("child ID 2 = "+childId2);
+					//System.out.println("last name = "+lastName2);
+					if(ind.getGender().trim().equals("M") && childId.equals(childId2) && !lastName.equals(lastName2)) {
+						System.out.println("conditions met.");
 						errors[error_index++] = "ERROR: INDIVIDUAL: " + i.getId() + " has different last name than other males in the family.\n";
 					}
 				}
