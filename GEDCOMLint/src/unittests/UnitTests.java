@@ -292,7 +292,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testMoreThanFifteenChildren() {
-		   String msg = "";
+		   String msg = "ERROR: FAMILY: F5 has has more than 15 children.";
 		   String[] result = null;
 		   try {
 			   result = US_15_16.checkFewerThanFifteenSiblings(allIndividuals, allFamilies);
@@ -305,7 +305,7 @@ public class UnitTests {
 	   
 	   @Test
 	   public void testMaleLastNames() {
-		   String msg = "";
+		   String msg = "ERROR: INDIVIDUAL: I5 has different last name than other males in the family.";
 		   String[] result = null;
 		   try {
 			   result = US_15_16.checkMaleLastNames(allIndividuals, allFamilies);
