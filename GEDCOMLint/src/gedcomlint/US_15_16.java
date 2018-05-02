@@ -231,7 +231,7 @@ public class US_15_16 {
 			String[] childIds = fam.getChildrenIdAsString().replaceAll("\\{", "")
 					.replaceAll("\\}", "").replaceAll("'", "").split(",");
 			if(childIds.length > 15) {
-				errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " has more than 15 children.\n";
+				errors[error_index++] = "ERROR: FAMILY: " + fam.getId() + " has more than 15 children.";
 			}
 		}
 		
@@ -259,9 +259,11 @@ public class US_15_16 {
 					String lastName2 = ind.getName().split("/")[1];
 					//System.out.println("child ID 2 = "+childId2);
 					//System.out.println("last name = "+lastName2);
-					if(ind.getGender().trim().equals("M") && childId.equals(childId2) && !lastName.equals(lastName2)) {
-						System.out.println("conditions met.");
-						errors[error_index++] = "ERROR: INDIVIDUAL: " + i.getId() + " has different last name than other males in the family.\n";
+					if(ind.getGender().trim().equals("M") &&
+							!childId.equals("NA") &&
+							childId.equals(childId2) && 
+							!lastName.equals(lastName2)) {
+						errors[error_index++] = "ERROR: INDIVIDUAL: " + i.getId() + " has different last name than other males in the family.";
 					}
 				}
 			}
