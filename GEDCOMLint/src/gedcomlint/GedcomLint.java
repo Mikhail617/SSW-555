@@ -72,6 +72,9 @@ public class GedcomLint {
     	validations3.validateMarriageBeforeDeath(file.getIndividuals(), file.getFamilies());
     	validations3.validateDivorceBeforeDeath(file.getIndividuals(), file.getFamilies());
     	
+    	US_07_08_Validations validations4 = new US_07_08_Validations();
+    	validations4.validate150YearOld(file.getIndividuals(), file.getFamilies());
+    	validations4.validateBirthBeforeParentsMarriage(file.getIndividuals(), file.getFamilies());
     	
     	// Execution of other user stories
     	// Execution of user story 30 and 31

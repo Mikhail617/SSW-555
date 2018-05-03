@@ -15,6 +15,12 @@ public class US_07_08_Validations {
 	    			System.out.println("ERROR: Individual: US07: " + indv.id + " has age more than 150 years.");
 				}
 			}
+			if(hasBirthDate(indv) && !hasDeathDate(indv)) {
+				if( isAgeGreaterThan150(indv.getBirthDate(), new Date()) ) {
+	    			System.out.println("ERROR: Individual: US07: " + indv.id + " has age more than 150 years.");
+				}
+			}
+
 		}
 	}
 
@@ -33,7 +39,7 @@ public class US_07_08_Validations {
 		String indvId = indv.id;
 		
 		for(Family family : allFamilies) {
-			if(family.childrenId.contains(indvId)) {
+			if(family.childrenId != null && family.childrenId.contains(indvId)) {
 				return family;
 			}
 		}
@@ -62,6 +68,20 @@ public class US_07_08_Validations {
     		Date dd = sdf.parse(deathDate);
     		
     		if(dd.getYear() - bd.getYear() >= 150 ) {
+    			return true;
+    		}
+		}
+		return false;
+		
+	}
+
+	public boolean isAgeGreaterThan150(String birthDate, Date deathDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+
+		if(birthDate != null && deathDate != null) {
+    		Date bd = sdf.parse(birthDate);
+    		
+    		if(deathDate.getYear() - bd.getYear() >= 150 ) {
     			return true;
     		}
 		}
